@@ -18,9 +18,11 @@ export class CloudinaryService {
       cloudinary.uploader
         .upload_stream({ resource_type: 'image' }, (error, result) => {
           if (error) {
-            reject(error);
-          } else {
+            reject(error instanceof Error ? error : new Error(String(error)));
+          } else if (result) {
             resolve(result.secure_url);
+          } else {
+            reject(new Error('Upload failed'));
           }
         })
         .end(file.buffer);

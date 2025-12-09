@@ -11,7 +11,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
-import { RolesGuard } from './modules/auth/strategies/guards/roles.guard'; 
+import { RolesGuard } from './modules/auth/guards/roles.guard';
 
 @Module({
   imports: [
@@ -21,14 +21,14 @@ import { RolesGuard } from './modules/auth/strategies/guards/roles.guard';
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         uri: configService.get('database.uri'),
       }),
       inject: [ConfigService],
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         secret: configService.get('jwt.secret'),
         signOptions: {
           expiresIn: configService.get('jwt.expiresIn'),
@@ -53,16 +53,4 @@ import { RolesGuard } from './modules/auth/strategies/guards/roles.guard';
     },
   ],
 })
-export class AppModule {}
-
-// import { Module } from '@nestjs/common';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
-
-// @Module({
-//   imports: [],
-//   import { RolesGuard } from './modules/auth/strategies/guards/roles.guard';
-controllers: [AppController],
-//   providers: [AppService],
-// })
-// export class AppModule {}
+export class AppModule { }
